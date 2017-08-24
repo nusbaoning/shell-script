@@ -2,14 +2,29 @@
 #author:Bao Ning
 #2017.8.22
 
-l=(webserver webproxy)
-# l=(webserver)
-run=6100
+#l=(webserver webproxy)
+# l=(webproxy)
+l=(cvar_example
+singlestreamwritedirect
+fivestreamreaddirect
+singlestreamreaddirect
+fivestreamread
+fivestreamwritedirect
+randomread
+randomrw
+varmail
+filemicro_rwritedsync
+singlestreamread
+singlestreamwrite
+randomwrite
+fivestreamwrite
+)
+run=3700
 for str in ${l[@]}; do
+	echo "file=$str"
 	cd ./$str
-	echo $str
 	echo $run
-	sudo blktrace -d /dev/sdb5 -w $run -o test1 &
+	sudo blktrace -d /dev/sdb5 -b 16384 -w $run -o test1 &
 	#pid1=$!
 	#echo "pid1 = $pid1"
 	sudo filebench -f "$str.f"
